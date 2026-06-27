@@ -70,10 +70,11 @@ return [
     | Here you may configure the path where users will get redirected during
     | authentication or password reset when the operations are successful
     | and the user is authenticated. You are free to change this value.
+      ここでは、認証またはパスワードリセット操作が成功し、ユーザーが認証された場合に、ユーザーがリダイレクトされるパスを設定できます。この値は自由に変更できます。
     |
     */
 
-    'home' => '/dashboard',
+    'home' => '/',
 
     /*
     |--------------------------------------------------------------------------
@@ -128,7 +129,11 @@ return [
     | Here you may specify if the routes returning views should be disabled as
     | you may not need them when building your own application. This may be
     | especially true if you're writing a custom single-page application.
-    |
+
+    | ここでは、ビューを返すルートを無効にするかどうかを指定できます。
+    | 独自のアプリケーションを構築する際には、ビューは不要になる場合があります。これは、
+    | 特にカスタムのシングルページアプリケーションを作成する場合に当てはまります。
+
     */
 
     'views' => true,

@@ -1,14 +1,15 @@
 <x-layouts::auth :title="__('Register')">
-    <div class="flex flex-col gap-6" style="text">
+    <div class="flex flex-col gap-6">
         <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
 
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
+
         <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-6">
             @csrf
             <!-- Name -->
             <flux:input
-            name="name"
+                name="name"
                 :label="__('Name')"
                 :value="old('name')"
                 type="text"
@@ -17,7 +18,7 @@
                 autocomplete="name"
                 :placeholder="__('Full name')"
             />
-            
+
             <!-- Email Address -->
             <flux:input
                 name="email"
@@ -28,10 +29,9 @@
                 autocomplete="email"
                 placeholder="email@example.com"
             />
-                
-                <!-- Password -->
-            <div>
-                <flux:input
+
+            <!-- Password -->
+            <flux:input
                 name="password"
                 :label="__('Password')"
                 type="password"
@@ -40,10 +40,8 @@
                 :placeholder="__('Password')"
                 passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
                 viewable
-                />
-                <p class="text-xs text-gray-700 mt-1">英大文字、英小文字、数字、記号を含む8文字以上の文字列(半角のみ)</p>
-            </div>
-                
+            />
+
             <!-- Confirm Password -->
             <flux:input
                 name="password_confirmation"

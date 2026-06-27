@@ -1,0 +1,1 @@
+<img src="{{ asset('img/study-delete-icon.svg') }}" alt="削除">
