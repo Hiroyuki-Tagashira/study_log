@@ -49,6 +49,7 @@
 | ------------- | ------------- |
 | フロントエンド  |  JavaScript, Livewire, TailWind, flux  |
 | バックエンド  | PHP, Laravel  |
+| ライブラリ  | chart.js  |
 | データベース | SQLite  |
 |  デザイン | draw.io  |
 | その他  | Git, GitHub  |
