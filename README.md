@@ -18,7 +18,8 @@
 また、学習記録時にコードも保存でき、あとから見返すことができます。  
 
 ## 2.デモ
-![デモ](https://github.com/Hiroyuki-Tagashira/study_log/issues/3)
+<img width="1000" height="563" alt="Image" src="https://github.com/user-attachments/assets/ef5db32e-8025-4663-9efe-bf9900cabfd7" />　　
+
 ## 3.機能・特徴
 機能  
 ・ユーザー認証（新規登録、ログイン、ログアウト）  
