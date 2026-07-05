@@ -44,15 +44,16 @@
 
 | カテゴリー | 技術スタック |
 | ------------- | ------------- |
-| フロントエンド  |  JavaScript, TailWind, Livewire  |
+| フロントエンド  |  JavaScript, Livewire, TailWind, flux  |
 | バックエンド  | PHP, Laravel  |
 | データベース | SQLite  |
 |  デザイン | draw.io  |
 | その他  | Git, GitHub  |
 
 ## 5.ER図
+<img width="1156" height="922" alt="Image" src="https://github.com/user-attachments/assets/75a111e6-c125-4217-b993-cc4fac34a720" />　　
 
 ## 6.今後の展望
-追加したい機能　　
-・レベルアップ時の演出
-・過去７日分の、1日ごとの学習記録をグラフで表示　　
+追加したい機能  
+・レベルアップ時の演出  
+・過去７日分の、1日ごとの学習記録をグラフで表示  
