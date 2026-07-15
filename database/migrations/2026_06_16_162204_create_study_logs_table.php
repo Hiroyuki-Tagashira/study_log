@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('subject_id')->constrained();
             $table->integer('time');
-            $table->integer('delete_flg')->default(0); //0:削除しない 1:論理的に削除
             $table->string('memo')->nullable();
             $table->dateTime('study_date_time');
             $table->timestamps();
+            // $table->softDeletes();
         });
     }
 

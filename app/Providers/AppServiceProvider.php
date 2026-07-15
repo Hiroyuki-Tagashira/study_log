@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Service\LevelService;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Events\Login;       //ログイン時のイベント用に追記
+use Illuminate\Support\Facades\Event;   //ログイン時のイベント用に追記
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        // Event::listen(Login::class,function(Login $event) {
+        //     $levelService = new LevelService;
+        //     $levelService->getLevel();
+        // });
     }
 
     /**

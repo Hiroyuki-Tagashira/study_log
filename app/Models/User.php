@@ -15,7 +15,7 @@ use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Models\StudyLog;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'reached_level'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -51,4 +51,10 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->hasMany(StudyLog::class);
     }
+
+    public function subject()
+    {
+        return $this->hasMany(Subject::class);
+    }
+    
 }

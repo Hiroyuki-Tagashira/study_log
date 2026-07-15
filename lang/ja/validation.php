@@ -25,6 +25,7 @@ return [
     ],
     'boolean' => ':attributeは、trueかfalseを指定してください。',
     'can' => ':attributeに権限のない値が含まれています。',
+    'code_title' => 'コードを保存する場合は、タイトルを入力してください。',
     'confirmed' => ':attributeと確認フィールドが一致していません。',
     'contains' => ':attributeに必須の値がありません。',
     'current_password' => 'パスワードが正しくありません。',

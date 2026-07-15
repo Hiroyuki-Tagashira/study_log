@@ -1,0 +1,1 @@
+<img src="{{ asset('img/add-subject-icon.svg') }}" alt="科目の追加">

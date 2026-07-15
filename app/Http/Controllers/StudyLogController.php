@@ -1,72 +1,87 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Service\LevelService;
 use App\Models\Field;
 use App\Models\StudyLog;
 use App\Models\Subject;
 use App\Models\Code;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Exception;
 
 class StudyLogController extends Controller
 {
     public function create()
     {
         $fields = Field::with('subject')->get();
-        return view('study_log.record-study', compact('fields'));
+        $subjects = Subject::where('user_id', '=', auth()->id())->get();
+        return view('study_log.record-study', compact('fields', 'subjects'));
     }
 
     public function index()
     {
-        $study_logs = StudyLog::with('subject', 'code')->orderBy('study_date_time', 'desc')->get();
+        $study_logs = StudyLog::where('user_id', '=', auth()->id())->with('subject', 'code')->orderBy('study_date_time', 'desc')->get();
         // dd($study_logs);
         if($study_logs->isEmpty()) {
-            session()->flash('nothing', '学習時間を記録しましょう');
+            session()->flash('none_study_log', 'まだ学習記録がありません。「記録する」ボタンをクリックして学習時間を記録しましょう。');
             return view('study_log.show-study-log');
         }
+        // dd(session());
 
-        $todayStudyTime = StudyLog::whereDate('study_date_time', today())->sum('time');
-        $sevenDays = Carbon::today()->subDay(7);    //今日の日付から７日前の日付を取得
-        $weeklyStudyTime = StudyLog::whereDate('study_date_time', '>=', $sevenDays)->sum('time');
-        $totalStudyTime = StudyLog::all()->sum('time');
-        return view('study_log.show-study-log', compact('study_logs', 'todayStudyTime', 'weeklyStudyTime', 'totalStudyTime'));
+        return view('study_log.show-study-log', compact('study_logs'));
     }
 
     public function store(Request $request)
     {
-        $validatedStudy = $request->validate([
-            'study_date_time' => 'required',
-            'hour' => 'required|integer|max:23|min:0',
-            'minute' => 'required|integer|max:59|min:0',
-            'memo' => 'max:255',
-            'subject_id' => 'required|integer',
-        ]);
-        $validatedStudy['time'] = ($validatedStudy['hour'] * 60) + ($validatedStudy['minute']);
-        unset($validatedStudy['hour'],$validatedStudy['minute']);
-        $validatedStudy['user_id'] = auth()->id();
-
-        $study_log = StudyLog::create($validatedStudy);
-        // dd($request);
-        // codeはbodyが入力されていれば保存する。
-        if(!empty($request->code_body[0])) {
-            //すべてCodeのバリデーションチェックをする
-            $validatedCode = $request->validate([
-                'title.*' => 'required|max:255',
-                'code_body.*' => 'required',
-            ]);
-            for($i = 0; $i < $request['code_count']; $i++){
-                $code = Code::create([
-                    'subject_id' => $request['subject_id'],
-                    'study_log_id' => $study_log->id,
-                    'body' => $request->code_body[$i],
-                    'title' => $request->title[$i],
+        try{
+            $validatedStudy = $request->validate([
+                'study_date_time' => 'required',
+                'hour' => 'required|integer|max:23|min:0',
+                'minute' => 'required|integer|max:59|min:0',
+                'memo' => 'max:255',
+                'subject_id' => 'required|integer',
                 ]);
+            $validatedStudy['time'] = ($validatedStudy['hour'] * 60) + ($validatedStudy['minute']);
+            if($validatedStudy['time'] === 0) {
+                $request->session()->flash('store_error_message', '学習記録を保存できませんでした');
+                $request->session()->flash('time_error_message', '学習時間は最低1分以上入力してください');
+                $request->session()->flash('error_subject_id', $request['subject_id']);
+                return redirect()->route('record');
             }
-        }
-        if(!empty($study_log)) {
-            $request->session()->flash('message', '学習記録を保存しました');
-        } else {
-            $request->session()->flash('message', '学習記録を保存できませんでした');
+            $validatedStudy['user_id'] = auth()->id();
+            unset($validatedStudy['hour'],$validatedStudy['minute']);
+            $study_log = StudyLog::create($validatedStudy);
+
+            if(!empty($request->title[0]) || !empty($request->code_body[0])) {
+
+                //すべてのCodeのバリデーションチェックをする
+                $validatedCode = $request->validate([
+                    'title.*' => 'required|max:255',
+                    'code_body.*' => 'required',
+                ]);
+                // dd($validatedCode);
+                for($i = 0; $i < $request['code_count']; $i++){
+                    $code = Code::create([
+                        'subject_id' => $request['subject_id'],
+                        'study_log_id' => $study_log->id,
+                        'body' => $request->code_body[$i],
+                        'title' => $request->title[$i],
+                    ]);
+                }
+            }
+            $totalStudyTime = StudyLog::where('user_id', auth()->id())->sum('time');
+            $levelService = new LevelService();
+            $level = $levelService->getLevel($totalStudyTime);
+            $isLevelUp = $levelService->isLevelUp($level);
+            $request->session()->flash('isLevelUp', $isLevelUp);
+            $request->session()->flash('record_message', '学習記録を保存しました');
+        } catch(Exception $e) {
+            $study_log->where('id', '=', $study_log->id)->delete();
+            $request->session()->flash('error_subject_id', $request['subject_id']);
+            $request->session()->flash('record_message', '学習記録を保存できませんでした');
+            return redirect()->route('record');
         }
         return redirect()->route('record');
     }
@@ -114,9 +129,13 @@ class StudyLogController extends Controller
                     ]);
                 }
             }
-            }
-            
-        $request->session()->flash('message', '学習記録を編集しました');
+        }
+        $totalStudyTime = StudyLog::where('user_id', auth()->id())->sum('time');
+        $levelService = new LevelService();
+        $level = $levelService->getLevel($totalStudyTime);
+        $isLevelUp = $levelService->isLevelUp($level);
+        $request->session()->flash('isLevelUp', $isLevelUp);
+        $request->session()->flash('edit_message', '学習記録を編集しました');
         // if(!empty($study_log)) {
             
         // } else {
@@ -130,7 +149,7 @@ class StudyLogController extends Controller
     {
         $study_log->code()->delete();
         $study_log->delete();
-        $request->session()->flash('message', '学習記録を削除しました');
+        $request->session()->flash('delete_message', '学習記録を削除しました');
         return redirect()->route('list');
     }
 }

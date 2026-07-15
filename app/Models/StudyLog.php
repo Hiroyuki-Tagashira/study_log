@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Models\Subject;
@@ -9,6 +9,8 @@ use App\Models\Code;
 
 class StudyLog extends Model
 {
+    // use SoftDeletes;
+    
     protected $casts = [
         'study_date_time' => 'datetime',
     ];

@@ -1,0 +1,1 @@
+<img src="{{ asset('img/three-leader-icon.svg') }}" alt="コード">

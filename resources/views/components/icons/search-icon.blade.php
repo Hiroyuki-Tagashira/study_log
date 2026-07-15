@@ -1,0 +1,1 @@
+<img src="{{ asset('img/search-icon.svg') }}" alt="検索">

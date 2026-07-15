@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('codes', function (Blueprint $table) {
-            $table->string('title')->nullable()->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('reached_level')->default('1');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('codes', function (Blueprint $table) {
-            $table->string('title')->nullable(false)->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('reached_level');
         });
     }
 };

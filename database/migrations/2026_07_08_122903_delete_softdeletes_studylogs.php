@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('codes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('subject_id')->constrained();
-            $table->foreignId('study_log_id')->constrained('study_logs');
-            $table->string('title');
-            $table->text('body');
-            $table->timestamps();
+        Schema::table('study_logs', function (Blueprint $table) {
+            $table->dropSoftDeletes();
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('codes');
+        Schema::table('study_logs', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 };

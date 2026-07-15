@@ -20,13 +20,19 @@ class Subject extends Model
         return $this->hasMany(StudyLog::class);
     }
 
+    public function code()
+    {
+        return $this->hasMany(Code::class);
+    }
+
     public function field()
     {
         return $this->belongsTo(Field::class);
     }
 
-    public function code()
+    public function user()
     {
-        return $this->hasMany(Code::class);
+        return $this->belongsTo(User::class);
     }
+
 }
