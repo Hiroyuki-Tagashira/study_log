@@ -17,9 +17,6 @@
                         </div>
                     </div>
                     <p>次のレベルまであと{{ $nextLevelExp }}分です</p>
-                    @if(session('isLevelUp'))
-                        <p>レベルアップ！</p>
-                    @endif
                 </div>
             </div>
             <script>

@@ -44,7 +44,7 @@
             </div>
         @else
             <div class="flex justify-center space-x-10 mt-5">
-                <div class="flex flex-col items-center">
+                <div class="w-2/5 flex flex-col items-center">
                     <x-icons.app-logo-large-icon />
                     <p class="text-3xl">プログラミング学習をもっとやりやすく</p>
                     <div class="text-xl my-3">

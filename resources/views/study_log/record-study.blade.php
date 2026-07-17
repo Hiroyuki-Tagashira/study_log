@@ -57,17 +57,21 @@
                                                         <div>
                                                             <flux:heading size="lg">科目の変更</flux:heading>
                                                         </div>
-                                                        <flux:textarea label="科目名" rows="1" placeholder="PHP" name="name">
+                                                        <flux:textarea label="科目名" rows="1" placeholder="PHP"
+                                                            name="name">
                                                             {{ $subject->name }}
                                                         </flux:textarea>
                                                         <flux:select name='field_id' placeholder="分野を選択してください">
-                                                            <flux:select.option value="1" :selected="$subject->field_id === 1">
+                                                            <flux:select.option value="1"
+                                                                :selected="$subject->field_id === 1">
                                                                 バックエンド
                                                             </flux:select.option>
-                                                            <flux:select.option value="2" :selected="$subject->field_id === 2">
+                                                            <flux:select.option value="2"
+                                                                :selected="$subject->field_id === 2">
                                                                 フロントエンド
                                                             </flux:select.option>
-                                                            <flux:select.option value="3" :selected="$subject->field_id === 3">
+                                                            <flux:select.option value="3"
+                                                                :selected="$subject->field_id === 3">
                                                                 その他
                                                             </flux:select.option>
                                                         </flux:select>
@@ -136,6 +140,14 @@
                 </form>
             </div>
         </div>
+        @if (session('isLevelUp'))
+            <x-levelup-animation />
+            <script>
+                window.addEventListener('load', () => {
+                    Flux.modal('levelup').show();
+                });
+            </script>
+        @endif
     </main>
 
     <footer>

@@ -15,6 +15,11 @@ Route::get('/register', function() {
     return view('auth.register');
 })->name('register');
 
+//クレジットページ
+Route::get('/credit', function() {
+    return view('credit');
+})->name('credit');
+
 Route::middleware(['auth'])->group(function()
 {
     //学習記録画面

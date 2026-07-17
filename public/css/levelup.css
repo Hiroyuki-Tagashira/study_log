@@ -1,0 +1,24 @@
+.bg-animated-gradient {
+    width: 100%;
+    /* height: 80px; */
+    background: linear-gradient(270deg, #fff, #c7efff, #eefade);
+    background-size: 400% 400%;
+    /* border-radius: 8px; */
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.animate-elasticIn {
+  animation: elasticIn 1.5s ease 1 both;
+}
+
+@keyframes elasticIn {
+  0% { opacity: 0; transform: scale(0); }
+  60% { opacity: 1; transform: scale(1.7); }
+  80% { transform: scale(0.5); }
+  100% { transform: scale(1); }
+}
